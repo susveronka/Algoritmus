@@ -15,7 +15,7 @@ public class Algoritmus {
 
     public boolean krok1() {
         if (zadanaHodnota == 0) {
-            System.out.println("Zadána nula. Ukončuji.");
+            System.out.println("Zadána nula - zkus to znovu");
             krok = 4; // přeskočíme rovnou na konec
             return false;
         }
