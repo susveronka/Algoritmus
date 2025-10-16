@@ -2,60 +2,70 @@ import java.util.Scanner;
 
 public class Algoritmus {
 
+    
+    private enum Krok {
+        ZADANI,
+        KONTROLA,
+        VYPOCET,
+        VYPIS,
+        KONEC
+    }
+
     private int zadanaHodnota;
     private int vysledek;
-    private int krok = 0;
+    private Krok aktualniKrok = Krok.ZADANI;
 
-    public void krok0() {
+    public void krokZadani() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Zadej číslo: ");
         zadanaHodnota = sc.nextInt();
-        krok++;
+        aktualniKrok = Krok.KONTROLA;
     }
 
-    public boolean krok1() {
+    public boolean krokKontrola() {
         if (zadanaHodnota == 0) {
             System.out.println("Zadána nula - zkus to znovu");
-            krok = 4; // přeskočíme rovnou na konec
+            aktualniKrok = Krok.KONEC; // přeskočíme na konec
             return false;
         }
-        krok++;
+        aktualniKrok = Krok.VYPOCET;
         return true;
     }
 
-    public void krok2() {
+    public void krokVypocet() {
         vysledek = zadanaHodnota * 10;
-        krok++;
+        aktualniKrok = Krok.VYPIS;
     }
 
-    public void krok3() {
+    public void krokVypis() {
         System.out.println("Výsledek: " + vysledek);
-        krok++;
+        aktualniKrok = Krok.KONEC;
     }
 
-    public void krok4() {
+    public void krokKonec() {
         System.out.println("Konec");
     }
 
     public void udelejKroky() {
-        while (krok <= 4) {
-            switch (krok) {
-                case 0:
-                    krok0();
+        while (true) {
+            switch (aktualniKrok) {
+                case ZADANI:
+                    krokZadani();
                     break;
-                case 1:
-                    if (!krok1()) return; // pokud je zadána nula, ukonči
+                case KONTROLA:
+                    if (!krokKontrola()) {
+                        krokKonec();
+                        return;
+                    }
                     break;
-                case 2:
-                    krok2();
+                case VYPOCET:
+                    krokVypocet();
                     break;
-                case 3:
-                    krok3();
+                case VYPIS:
+                    krokVypis();
                     break;
-                case 4:
-                    krok4();
-                    return;
-                default:
+                case KONEC:
+                    krokKonec();
                     return;
             }
         }
@@ -66,4 +76,3 @@ public class Algoritmus {
         algoritmus.udelejKroky();
     }
 }
-
